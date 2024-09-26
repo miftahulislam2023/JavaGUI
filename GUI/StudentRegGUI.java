@@ -1,5 +1,6 @@
 package GUI;
 //default libraries
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -9,76 +10,86 @@ import javax.swing.table.DefaultTableModel;
 import Entities.Student;
 import FileManagement.StudentManager;
 
-public class StudentRegGUI extends JFrame implements ActionListener {
+public class StudentRegGUI implements ActionListener {
+    //frame
+    JFrame frame = new JFrame("Football Player");
+    //text-fields
     JTextField txtId;
     JTextField txtName;
     JTextField txtSId;
     JTextField txtDob;
     JTextField txtSearch;
-
-    JButton submit;
+    //buttons
+    JButton register;
     JButton search;
     JButton update;
     JButton delete;
+    //defaultTableModel
     DefaultTableModel tmodel;
 
+    //constructor
     public StudentRegGUI() {
-        setSize(1100, 300);
-        setLayout(new FlowLayout());
+        frame.setSize(1200, 600);
+        frame.setLayout(new FlowLayout());
 
-        /*JLabel idlbl = new JLabel("Id");
-        add(idlbl);*/
-
-        add(new JLabel("Search by Sl"));
+        frame.add(new JLabel("Search by Sl"));
         txtSearch = new JTextField(8);
-        add(txtSearch);
+        frame.add(txtSearch);
         search = new JButton("Search");
-        add(search);
+        frame.add(search);
         search.addActionListener(this);
 
 
-        add(new JLabel("Id"));
+        frame.add(new JLabel("Id"));
         txtId = new JTextField(6);
-        add(txtId);
-        add(new JLabel("Name"));
+        frame.add(txtId);
+        frame.add(new JLabel("Name"));
         txtName = new JTextField(20);
-        add(txtName);
-        add(new JLabel("SId"));
+        frame.add(txtName);
+        frame.add(new JLabel("SId"));
         txtSId = new JTextField(8);
-        add(txtSId);
-        add(new JLabel("Dob"));
+        frame.add(txtSId);
+        frame.add(new JLabel("Dob"));
         txtDob = new JTextField(8);
-        add(txtDob);
-        submit = new JButton("Register");
-        add(submit);
-        submit.addActionListener(this);
+        frame.add(txtDob);
+        register = new JButton("Register");
+        frame.add(register);
+        register.addActionListener(this);
         update = new JButton("Update");
-        add(update);
+        frame.add(update);
         update.addActionListener(this);
         delete = new JButton("delete");
-        add(delete);
+        frame.add(delete);
         delete.addActionListener(this);
 
-        //tables
+        //table
         tmodel = new DefaultTableModel();
         tmodel.addColumn("SlNo");
         tmodel.addColumn("Name");
         tmodel.addColumn("SId");
         tmodel.addColumn("Dob");
 
-
         JTable table = new JTable(tmodel);
         JScrollPane jspTable = new JScrollPane(table);
-        add(jspTable);
-
+        frame.add(jspTable);
 
         loadData();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+    //loadData function
+    private void loadData() {
+        StudentManager studentManager = new StudentManager();
+        Student[] students = studentManager.getAllStudents();
+        for (Student student : students) {
+            Object[] row = new Object[]{student.getSl(), student.getName(), student.getSId(), student.getDob()};
+            tmodel.addRow(row);
+        }
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == submit) {
+        if (e.getSource() == register) {
             String sl = txtId.getText();
             String name = txtName.getText();
             String sid = txtSId.getText();
@@ -93,22 +104,12 @@ public class StudentRegGUI extends JFrame implements ActionListener {
         } else if (e.getSource() == search) {
             String sl = txtSearch.getText();
             StudentManager sm = new StudentManager();
-            JOptionPane.showMessageDialog(null, "Srch");
+            JOptionPane.showMessageDialog(null, "Search");
         } else if (e.getSource() == delete) {
-            JOptionPane.showMessageDialog(null, "Delete");
+            JOptionPane.showMessageDialog(null, "Deleted");
         } else if (e.getSource() == update) {
-            JOptionPane.showMessageDialog(null, "Update");
+            JOptionPane.showMessageDialog(null, "Updated");
         }
 
-    }
-
-    private void loadData() {
-        StudentManager sm = new StudentManager();
-        Student[] students = sm.getAllStudents();
-        for (int i = 0; i < students.length; i++) {
-            Student s = students[i];
-            Object[] row = new Object[]{s.getSl(), s.getName(), s.getSId(), s.getDob()};
-            tmodel.addRow(row);
-        }
     }
 }
