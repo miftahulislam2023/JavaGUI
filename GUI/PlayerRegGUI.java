@@ -14,11 +14,11 @@ public class PlayerRegGUI implements ActionListener {
     //frame
     JFrame frame = new JFrame("Football Player");
     //text-fields
-    JTextField txtId;
+    JTextField txtClub;
     JTextField txtName;
-    JTextField txtSId;
-    JTextField txtDob;
-    JTextField txtSearch;
+    JTextField txtJerseyNo;
+    JTextField txtPlayingPosition;
+    JTextField txtSearchByName;
     //buttons
     JButton register;
     JButton search;
@@ -37,24 +37,24 @@ public class PlayerRegGUI implements ActionListener {
         frame.setLayout(new FlowLayout());
 
         frame.add(new JLabel("Search by Name"));
-        txtSearch = new JTextField(8);
-        frame.add(txtSearch);
+        txtSearchByName = new JTextField(8);
+        frame.add(txtSearchByName);
         search = new JButton("Search");
         frame.add(search);
         search.addActionListener(this);
 
         frame.add(new JLabel("Club"));
-        txtId = new JTextField(6);
-        frame.add(txtId);
+        txtClub = new JTextField(6);
+        frame.add(txtClub);
         frame.add(new JLabel("Name"));
         txtName = new JTextField(20);
         frame.add(txtName);
         frame.add(new JLabel("Jersey no"));
-        txtSId = new JTextField(8);
-        frame.add(txtSId);
+        txtJerseyNo = new JTextField(8);
+        frame.add(txtJerseyNo);
         frame.add(new JLabel("Playing position"));
-        txtDob = new JTextField(8);
-        frame.add(txtDob);
+        txtPlayingPosition = new JTextField(8);
+        frame.add(txtPlayingPosition);
 
         register = new JButton("Register");
         frame.add(register);
@@ -87,10 +87,10 @@ public class PlayerRegGUI implements ActionListener {
                 if (!e.getValueIsAdjusting()) {
                     selectedRow = table.getSelectedRow();
                     if (selectedRow >= 0) {
-                        txtId.setText(tmodel.getValueAt(selectedRow, 0).toString());
+                        txtClub.setText(tmodel.getValueAt(selectedRow, 0).toString());
                         txtName.setText(tmodel.getValueAt(selectedRow, 1).toString());
-                        txtSId.setText(tmodel.getValueAt(selectedRow, 2).toString());
-                        txtDob.setText(tmodel.getValueAt(selectedRow, 3).toString());
+                        txtJerseyNo.setText(tmodel.getValueAt(selectedRow, 2).toString());
+                        txtPlayingPosition.setText(tmodel.getValueAt(selectedRow, 3).toString());
                     }
                 }
             }
@@ -106,7 +106,7 @@ public class PlayerRegGUI implements ActionListener {
         PlayerManager playerManager = new PlayerManager();
         Player[] players = playerManager.getAllPlayer();
         for (Player player : players) {
-            Object[] row = new Object[]{player.getClub(), player.getName(), player.getSId(), player.getPlayingPosition()};
+            Object[] row = new Object[]{player.getClub(), player.getName(), player.getJerseyNo(), player.getPlayingPosition()};
             tmodel.addRow(row);
         }
     }
@@ -114,20 +114,20 @@ public class PlayerRegGUI implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         PlayerManager sm = new PlayerManager();
         if (e.getSource() == register) {
-            String club = txtId.getText();
+            String club = txtClub.getText();
             String name = txtName.getText();
-            String sid = txtSId.getText();
-            String dob = txtDob.getText();
+            String jerseyNo = txtJerseyNo.getText();
+            String playingPosition = txtPlayingPosition.getText();
 
             // Add the player to the table and save it to the file
-            Object[] row = new Object[]{club, name, sid, dob};
+            Object[] row = new Object[]{club, name, jerseyNo, playingPosition};
             tmodel.addRow(row);
 
-            Player player = new Player(club, name, sid, dob);
+            Player player = new Player(club, name, jerseyNo, playingPosition);
             sm.writePlayer(player, true); // true for appending
             JOptionPane.showMessageDialog(null, "Player Registered");
         } else if (e.getSource() == search) {
-            String searchName = txtSearch.getText();
+            String searchName = txtSearchByName.getText();
             boolean found = false;
 
             // Loop through the table and find the player by name
@@ -149,10 +149,10 @@ public class PlayerRegGUI implements ActionListener {
             }
         } else if (e.getSource() == update) {
             if (selectedRow >= 0) {
-                String club = txtId.getText();
+                String club = txtClub.getText();
                 String name = txtName.getText();
-                String sid = txtSId.getText();
-                String dob = txtDob.getText();
+                String sid = txtJerseyNo.getText();
+                String dob = txtPlayingPosition.getText();
 
                 // Update the player in the table
                 tmodel.setValueAt(club, selectedRow, 0);
@@ -169,7 +169,7 @@ public class PlayerRegGUI implements ActionListener {
             }
         } else if (e.getSource() == delete) {
             if (selectedRow >= 0) {
-                String club = txtId.getText();
+                String club = txtClub.getText();
                 sm.deletePlayer(club);
                 tmodel.removeRow(selectedRow); // Remove the row from the table
                 selectedRow = -1; // Reset selected row

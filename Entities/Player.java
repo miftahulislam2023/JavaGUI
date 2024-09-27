@@ -27,7 +27,7 @@ public class Player {
         this.playingPosition = playingPosition;
     }
 
-    public void setSId(String sid) {
+    public void setJerseyNo(String sid) {
         this.jerseyNo = sid;
     }
 
@@ -44,7 +44,7 @@ public class Player {
         return playingPosition;
     }
 
-    public String getSId() {
+    public String getJerseyNo() {
         return jerseyNo;
     }
 
