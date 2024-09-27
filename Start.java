@@ -1,15 +1,15 @@
 //all user-defined libraries
-import Entities.Student;
-import FileManagement.StudentManager;
-import GUI.StudentRegGUI;
+import Entities.Player;
+import FileManagement.PlayerManager;
+import GUI.PlayerRegGUI;
 
 public class Start{
     public static void main(String[] args){
-        StudentRegGUI g = new StudentRegGUI();
-        StudentManager smanager = new StudentManager();
-        Student[] data = smanager.getAllStudents();
-        for(int i =0; i<data.length;i++){
-            data[i].show();
+        PlayerRegGUI playerRegGUI = new PlayerRegGUI();
+        PlayerManager playerManager = new PlayerManager();
+        Player[] data = playerManager.getAllPlayer();
+        for (Player datum : data) {
+            datum.show();
         }
     }
 }
