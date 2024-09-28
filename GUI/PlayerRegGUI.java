@@ -1,37 +1,35 @@
 package GUI;
-//default libraries
+
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
-import Entities.FootballPlayer;
+import Entities.Player;
 import FileManagement.PlayerManager;
 
 public class PlayerRegGUI implements ActionListener {
-    //frame
-    JFrame frame = new JFrame("Football Player");
-    //text-fields
-    JTextField txtClub;
+    JFrame frame = new JFrame("Player Registration");
+    // text-fields
     JTextField txtName;
     JTextField txtJerseyNo;
     JTextField txtPlayingPosition;
     JTextField txtSearchByName;
-    //buttons
+    JComboBox<String> sportDropdown;
+    // buttons
     JButton register;
     JButton search;
     JButton update;
     JButton delete;
-    //defaultTableModel
+    JButton showCricketPlayers;
+    JButton showFootballPlayers;
+    // defaultTableModel
     DefaultTableModel tmodel;
     JTable table;
 
-    //selected row index for delete/update
+    // selected row index for delete/update
     int selectedRow = -1;
 
-    //constructor
     public PlayerRegGUI() {
         frame.setSize(1300, 600);
         frame.setLayout(new FlowLayout());
@@ -43,9 +41,12 @@ public class PlayerRegGUI implements ActionListener {
         frame.add(search);
         search.addActionListener(this);
 
-        frame.add(new JLabel("Club"));
-        txtClub = new JTextField(6);
-        frame.add(txtClub);
+        // Sport dropdown menu
+        frame.add(new JLabel("Sport"));
+        String[] sports = {"Cricket", "Football"};
+        sportDropdown = new JComboBox<>(sports);
+        frame.add(sportDropdown);
+
         frame.add(new JLabel("Name"));
         txtName = new JTextField(20);
         frame.add(txtName);
@@ -68,9 +69,17 @@ public class PlayerRegGUI implements ActionListener {
         frame.add(delete);
         delete.addActionListener(this);
 
-        //table
+        // Buttons for showing players
+        showCricketPlayers = new JButton("Show Cricket Players");
+        showFootballPlayers = new JButton("Show Football Players");
+        frame.add(showCricketPlayers);
+        frame.add(showFootballPlayers);
+        showCricketPlayers.addActionListener(this);
+        showFootballPlayers.addActionListener(this);
+
+        // Table
         tmodel = new DefaultTableModel();
-        tmodel.addColumn("Club");
+        tmodel.addColumn("Sport");
         tmodel.addColumn("Name");
         tmodel.addColumn("Jersey no");
         tmodel.addColumn("Playing position");
@@ -80,18 +89,14 @@ public class PlayerRegGUI implements ActionListener {
         frame.add(jspTable);
 
         // Add row selection listener to the table
-        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                // Make sure row selection is not adjusting
-                if (!e.getValueIsAdjusting()) {
-                    selectedRow = table.getSelectedRow();
-                    if (selectedRow >= 0) {
-                        txtClub.setText(tmodel.getValueAt(selectedRow, 0).toString());
-                        txtName.setText(tmodel.getValueAt(selectedRow, 1).toString());
-                        txtJerseyNo.setText(tmodel.getValueAt(selectedRow, 2).toString());
-                        txtPlayingPosition.setText(tmodel.getValueAt(selectedRow, 3).toString());
-                    }
+        table.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                selectedRow = table.getSelectedRow();
+                if (selectedRow >= 0) {
+                    sportDropdown.setSelectedItem(tmodel.getValueAt(selectedRow, 0).toString());
+                    txtName.setText(tmodel.getValueAt(selectedRow, 1).toString());
+                    txtJerseyNo.setText(tmodel.getValueAt(selectedRow, 2).toString());
+                    txtPlayingPosition.setText(tmodel.getValueAt(selectedRow, 3).toString());
                 }
             }
         });
@@ -101,30 +106,54 @@ public class PlayerRegGUI implements ActionListener {
         frame.setVisible(true);
     }
 
-    //loadData function
+    // Load data function
     private void loadData() {
         PlayerManager playerManager = new PlayerManager();
-        FootballPlayer[] footballPlayers = playerManager.getAllPlayer();
-        for (FootballPlayer footballPlayer : footballPlayers) {
-            Object[] row = new Object[]{footballPlayer.getClub(), footballPlayer.getName(), footballPlayer.getJerseyNo(), footballPlayer.getPlayingPosition()};
+        Player[] players = playerManager.getAllPlayer();
+        for (Player player : players) {
+            Object[] row = new Object[]{player.getSport(), player.getName(), player.getJerseyNo(), player.getPlayingPosition()};
             tmodel.addRow(row);
         }
+    }
+
+    // Function to display players based on sport
+    private void displayPlayersBySport(String sport) {
+        JFrame sportFrame = new JFrame("Players - " + sport);
+        DefaultTableModel sportModel = new DefaultTableModel();
+        sportModel.addColumn("Name");
+        sportModel.addColumn("Jersey No");
+        sportModel.addColumn("Playing Position");
+
+        JTable sportTable = new JTable(sportModel);
+        JScrollPane scrollPane = new JScrollPane(sportTable);
+        sportFrame.add(scrollPane);
+
+        PlayerManager playerManager = new PlayerManager();
+        Player[] players = playerManager.getAllPlayer();
+        for (Player player : players) {
+            if (player.getSport().equals(sport)) {
+                sportModel.addRow(new Object[]{player.getName(), player.getJerseyNo(), player.getPlayingPosition()});
+            }
+        }
+
+        sportFrame.setSize(500, 300);
+        sportFrame.setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
         PlayerManager sm = new PlayerManager();
         if (e.getSource() == register) {
-            String club = txtClub.getText();
+            String sport = sportDropdown.getSelectedItem().toString();
             String name = txtName.getText();
             String jerseyNo = txtJerseyNo.getText();
             String playingPosition = txtPlayingPosition.getText();
 
             // Add the player to the table and save it to the file
-            Object[] row = new Object[]{club, name, jerseyNo, playingPosition};
+            Object[] row = new Object[]{sport, name, jerseyNo, playingPosition};
             tmodel.addRow(row);
 
-            FootballPlayer footballPlayer = new FootballPlayer(club, name, jerseyNo, playingPosition);
-            sm.writePlayer(footballPlayer, true); // true for appending
+            Player player = new Player(sport, name, jerseyNo, playingPosition);
+            sm.writePlayer(player, true); // true for appending
             JOptionPane.showMessageDialog(null, "Player Registered");
         } else if (e.getSource() == search) {
             String searchName = txtSearchByName.getText();
@@ -134,11 +163,8 @@ public class PlayerRegGUI implements ActionListener {
             for (int i = 0; i < tmodel.getRowCount(); i++) {
                 String name = tmodel.getValueAt(i, 1).toString();
                 if (name.equalsIgnoreCase(searchName)) {
-                    // Select the found row
                     table.setRowSelectionInterval(i, i);
-                    // Scroll to the found row (optional, if needed)
                     table.scrollRectToVisible(table.getCellRect(i, 0, true));
-
                     found = true;
                     break;
                 }
@@ -149,34 +175,36 @@ public class PlayerRegGUI implements ActionListener {
             }
         } else if (e.getSource() == update) {
             if (selectedRow >= 0) {
-                String club = txtClub.getText();
+                String sport = sportDropdown.getSelectedItem().toString();
                 String name = txtName.getText();
                 String sid = txtJerseyNo.getText();
                 String dob = txtPlayingPosition.getText();
 
-                // Update the player in the table
-                tmodel.setValueAt(club, selectedRow, 0);
+                tmodel.setValueAt(sport, selectedRow, 0);
                 tmodel.setValueAt(name, selectedRow, 1);
                 tmodel.setValueAt(sid, selectedRow, 2);
                 tmodel.setValueAt(dob, selectedRow, 3);
 
-                // Update the player in the file
-                FootballPlayer footballPlayer = new FootballPlayer(club, name, sid, dob);
-                sm.updatePlayer(footballPlayer);
+                Player player = new Player(sport, name, sid, dob);
+                sm.updatePlayer(player);
                 JOptionPane.showMessageDialog(null, "Player Updated");
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a player to update");
             }
         } else if (e.getSource() == delete) {
             if (selectedRow >= 0) {
-                String club = txtClub.getText();
-                sm.deletePlayer(club);
-                tmodel.removeRow(selectedRow); // Remove the row from the table
-                selectedRow = -1; // Reset selected row
+                String sport = sportDropdown.getSelectedItem().toString();
+                sm.deletePlayer(sport);
+                tmodel.removeRow(selectedRow);
+                selectedRow = -1;
                 JOptionPane.showMessageDialog(null, "Player Deleted");
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a player to delete");
             }
+        } else if (e.getSource() == showCricketPlayers) {
+            displayPlayersBySport("Cricket");
+        } else if (e.getSource() == showFootballPlayers) {
+            displayPlayersBySport("Football");
         }
     }
 }
