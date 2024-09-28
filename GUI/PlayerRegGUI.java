@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
-import Entities.Player;
+import Entities.FootballPlayer;
 import FileManagement.PlayerManager;
 
 public class PlayerRegGUI implements ActionListener {
@@ -104,9 +104,9 @@ public class PlayerRegGUI implements ActionListener {
     //loadData function
     private void loadData() {
         PlayerManager playerManager = new PlayerManager();
-        Player[] players = playerManager.getAllPlayer();
-        for (Player player : players) {
-            Object[] row = new Object[]{player.getClub(), player.getName(), player.getJerseyNo(), player.getPlayingPosition()};
+        FootballPlayer[] footballPlayers = playerManager.getAllPlayer();
+        for (FootballPlayer footballPlayer : footballPlayers) {
+            Object[] row = new Object[]{footballPlayer.getClub(), footballPlayer.getName(), footballPlayer.getJerseyNo(), footballPlayer.getPlayingPosition()};
             tmodel.addRow(row);
         }
     }
@@ -123,8 +123,8 @@ public class PlayerRegGUI implements ActionListener {
             Object[] row = new Object[]{club, name, jerseyNo, playingPosition};
             tmodel.addRow(row);
 
-            Player player = new Player(club, name, jerseyNo, playingPosition);
-            sm.writePlayer(player, true); // true for appending
+            FootballPlayer footballPlayer = new FootballPlayer(club, name, jerseyNo, playingPosition);
+            sm.writePlayer(footballPlayer, true); // true for appending
             JOptionPane.showMessageDialog(null, "Player Registered");
         } else if (e.getSource() == search) {
             String searchName = txtSearchByName.getText();
@@ -161,8 +161,8 @@ public class PlayerRegGUI implements ActionListener {
                 tmodel.setValueAt(dob, selectedRow, 3);
 
                 // Update the player in the file
-                Player player = new Player(club, name, sid, dob);
-                sm.updatePlayer(player);
+                FootballPlayer footballPlayer = new FootballPlayer(club, name, sid, dob);
+                sm.updatePlayer(footballPlayer);
                 JOptionPane.showMessageDialog(null, "Player Updated");
             } else {
                 JOptionPane.showMessageDialog(null, "Please select a player to update");

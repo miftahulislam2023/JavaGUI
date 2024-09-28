@@ -1,6 +1,6 @@
 package FileManagement;
 
-import Entities.Player;
+import Entities.FootballPlayer;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
@@ -12,11 +12,11 @@ public class PlayerManager {
         filePath = "DataFiles/data.txt";
     }
 
-    public void writePlayer(Player player, boolean append) {
+    public void writePlayer(FootballPlayer footballPlayer, boolean append) {
         File f = new File(filePath);
         try {
             FileWriter writer = new FileWriter(f, append);
-            writer.write(player.getFileWriteFormat());
+            writer.write(footballPlayer.getFileWriteFormat());
             writer.flush();
             writer.close();
         } catch (Exception ex) {
@@ -24,9 +24,9 @@ public class PlayerManager {
         }
     }
 
-    public Player[] getAllPlayer() {
+    public FootballPlayer[] getAllPlayer() {
         File f = new File(filePath);
-        Player[] players = null;
+        FootballPlayer[] footballPlayers = null;
         try {
             Scanner sc = new Scanner(f);
             int count = 0;
@@ -34,7 +34,7 @@ public class PlayerManager {
                 sc.nextLine();
                 count++;
             }
-            players = new Player[count];
+            footballPlayers = new FootballPlayer[count];
             sc.close();
 
             sc = new Scanner(f);
@@ -42,33 +42,33 @@ public class PlayerManager {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] data = line.split(";");
-                Player player = new Player(data[0], data[1], data[2], data[3]);
-                players[index++] = player;
+                FootballPlayer footballPlayer = new FootballPlayer(data[0], data[1], data[2], data[3]);
+                footballPlayers[index++] = footballPlayer;
             }
             sc.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return players;
+        return footballPlayers;
     }
 
-    public Player searchPlayer(String club) {
-        Player[] players = getAllPlayer();
-        for (Player player : players) {
-            if (player.getClub().equals(club)) {
-                return player;
+    public FootballPlayer searchPlayer(String club) {
+        FootballPlayer[] footballPlayers = getAllPlayer();
+        for (FootballPlayer footballPlayer : footballPlayers) {
+            if (footballPlayer.getClub().equals(club)) {
+                return footballPlayer;
             }
         }
         return null;
     }
 
     public void deletePlayer(String club) {
-        Player[] players = getAllPlayer();
+        FootballPlayer[] footballPlayers = getAllPlayer();
         try {
             FileWriter writer = new FileWriter(filePath, false); // Overwrite file
-            for (Player player : players) {
-                if (!player.getClub().equals(club)) {
-                    writer.write(player.getFileWriteFormat());
+            for (FootballPlayer footballPlayer : footballPlayers) {
+                if (!footballPlayer.getClub().equals(club)) {
+                    writer.write(footballPlayer.getFileWriteFormat());
                 }
             }
             writer.flush();
@@ -78,15 +78,15 @@ public class PlayerManager {
         }
     }
 
-    public void updatePlayer(Player updatedPlayer) {
-        Player[] players = getAllPlayer();
+    public void updatePlayer(FootballPlayer updatedPlayer) {
+        FootballPlayer[] footballPlayers = getAllPlayer();
         try {
             FileWriter writer = new FileWriter(filePath, false); // Overwrite file
-            for (Player player : players) {
-                if (player.getClub().equals(updatedPlayer.getClub())) {
+            for (FootballPlayer footballPlayer : footballPlayers) {
+                if (footballPlayer.getClub().equals(updatedPlayer.getClub())) {
                     writer.write(updatedPlayer.getFileWriteFormat());
                 } else {
-                    writer.write(player.getFileWriteFormat());
+                    writer.write(footballPlayer.getFileWriteFormat());
                 }
             }
             writer.flush();
