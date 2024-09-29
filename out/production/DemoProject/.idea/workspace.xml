@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d52ce700-f9db-4418-8c35-28c621aa515b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/DataFiles/data.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DataFiles/data.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Entities/FootballPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/Entities/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FileManagement/PlayerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/FileManagement/PlayerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/PlayerRegGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/PlayerRegGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Start.java" beforeDir="false" afterPath="$PROJECT_DIR$/Start.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DemoProject/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DemoProject/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DemoProject/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DemoProject/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DemoProject/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DemoProject/DataFiles/data.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DemoProject/DemoProject.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DemoProject/Entities/FootballPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DemoProject/Entities/Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DemoProject/FileManagement/PlayerManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DemoProject/GUI/PlayerRegGUI$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DemoProject/GUI/PlayerRegGUI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DemoProject/Start.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="2mhmg6nXj063Uzd5a9IJ6K0LGAb" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Start.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "kotlin-language-version-configured": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d52ce700-f9db-4418-8c35-28c621aa515b" name="Changes" comment="" />
+      <created>1727537292915</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1727537292915</updated>
+    </task>
+    <servers />
+  </component>
+</project>
